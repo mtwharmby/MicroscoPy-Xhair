@@ -1,0 +1,6 @@
+numpy==1.23.4
+opencv-python==4.6.0.66
+Pillow==9.3.0
+six==1.16.0
+windows-capture-device-list @ file:///./submodules/windows_capture_device_list-1.0.1-cp310-cp310-win_amd64.whl
+wxPython==4.2.0
