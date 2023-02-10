@@ -6,6 +6,13 @@ MicroscoPy-xhair is designed for use with USB camera microscopes, but will work 
 ## Device Enumeration
 In systems with multiple webcams/USB cameras connected, OpenCV will recognise multiple devices. Unfortunately it only provides an index to identify the different cameras. The name of the camera is available through DirectShow. The [python-capture-device-list](https://github.com/yushulx/python-capture-device-list) library provides a way to make this name available in python. The library is included as a submodule of this project in the [submodules](./submodules) directory, and a wheel for python 3.10 is included in the project.
 
-## Linux Install
+## wxPython Installation
+
+### Linux
 wxpython wheels are available and can be installed with the command:
 pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-20.04 wxpython
+
+### Windows
+There is not always an official pre-built wheel available for wxPython. A suitable alternative can be found here:
+https://dev.azure.com/oleksis/wxPython/_build/results?buildId=88&view=artifacts&pathAsName=false&type=publishedArtifacts
+(for Win x64)
