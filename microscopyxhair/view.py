@@ -1,3 +1,5 @@
+import logging
+
 import cv2      # TODO Remove this dependency
 import wx
 
@@ -58,6 +60,7 @@ class CameraPanel(wx.Panel):
     def __init__(self, parent, model: DataModel, cap_ctrl: CaptureController,
                  *args, **kw):
         super().__init__(parent, *args, **kw)
+        self.logger = logging.getLogger(__name__)
 
         self.model: DataModel = model
         self.capture_ctrl: CaptureController = cap_ctrl
@@ -84,6 +87,7 @@ class CameraPanel(wx.Panel):
 
         self.SetSize((width, height))
         self.SetMinSize((width, height))
+        self.logger.debug(f"Camera frame size changed to: {(width, height)}")
 
     def get_frame(self):
         if not self.model.capture_active:
@@ -132,13 +136,14 @@ class CameraPanel(wx.Panel):
 
     def OnLeftClick(self, evt: wx.MouseEvent):
         xhair_coord = evt.GetPosition()
-        print(f"New crosshair coord: {xhair_coord}")
+        self.logger.debug(f"New crosshair coord: {xhair_coord}")
 
         new_xhair_centre = tuple(
             xhair_coord[i] / self.GetSize().Get()[i]
             for i in range(2)
         )
-        print(f"Converted to new crosshair center: {new_xhair_centre}")
+        self.logger.debug("Converted to new crosshair center: "
+                          f"{new_xhair_centre}")
         self.model.xhair_centre = new_xhair_centre
 
         self.Refresh()
