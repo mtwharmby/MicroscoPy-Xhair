@@ -30,3 +30,29 @@ class CaptureController:
     def stop_capture(self):
         self.capture.release()
         self.model.capture_active = False
+
+
+class CrosshairController:
+
+    def __init__(self, model: DataModel):
+        self.model = model
+
+    def draw_crosshair(self, frame):
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        # N.B. frame.shape returns a tuple: (height, width, color)
+        #      - frame is an ndarray
+        cv2.line(  # Vertical line
+            frame,
+            (int(frame.shape[1] * self.model.xhair_centre[0]), 0),
+            (int(frame.shape[1] * self.model.xhair_centre[0]), frame.shape[0]),
+            color=self.model.xhair_colour,
+            thickness=self.model.xhair_thickness
+        )
+        cv2.line(  # Horizontal line
+            frame,
+            (0, int(frame.shape[0] * self.model.xhair_centre[1])),
+            (frame.shape[1], int(frame.shape[0] * self.model.xhair_centre[1])),
+            color=self.model.xhair_colour,
+            thickness=self.model.xhair_thickness
+        )
+        return frame

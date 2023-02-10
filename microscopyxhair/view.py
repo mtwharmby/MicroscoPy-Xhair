@@ -1,9 +1,9 @@
 import logging
 
-import cv2      # TODO Remove this dependency
 import wx
 
-from .model_controller import DataModel, CaptureController
+from .model_controller import (DataModel, CaptureController,
+                               CrosshairController)
 
 
 class CameraIdChooser(wx.Dialog):
@@ -64,6 +64,7 @@ class CameraPanel(wx.Panel):
 
         self.model: DataModel = model
         self.capture_ctrl: CaptureController = cap_ctrl
+        self.xhair_ctrl: CrosshairController = CrosshairController(self.model)
 
         self.init_ui()
 
@@ -97,24 +98,7 @@ class CameraPanel(wx.Panel):
         if not ret:
             raise RuntimeError("Cannot get frame")
 
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        # N.B. frame.shape returns a tuple: (height, width, color)
-        #      - frame is an ndarray
-        cv2.line(  # Vertical line
-            frame,
-            (int(frame.shape[1] * self.model.xhair_centre[0]), 0),
-            (int(frame.shape[1] * self.model.xhair_centre[0]), frame.shape[0]),
-            color=self.model.xhair_colour,
-            thickness=self.model.xhair_thickness
-        )
-        cv2.line(  # Horizontal line
-            frame,
-            (0, int(frame.shape[0] * self.model.xhair_centre[1])),
-            (frame.shape[1], int(frame.shape[0] * self.model.xhair_centre[1])),
-            color=self.model.xhair_colour,
-            thickness=self.model.xhair_thickness
-        )
-        return frame
+        return self.xhair_ctrl.draw_crosshair(frame)
 
     def OnPaint(self, evt):
         dc = wx.BufferedPaintDC(self, self.bmp)
@@ -135,6 +119,7 @@ class CameraPanel(wx.Panel):
         self.Refresh()
 
     def OnLeftClick(self, evt: wx.MouseEvent):
+        # TODO Move this to CrosshairController
         xhair_coord = evt.GetPosition()
         self.logger.debug(f"New crosshair coord: {xhair_coord}")
 
