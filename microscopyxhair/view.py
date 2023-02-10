@@ -76,6 +76,8 @@ class CameraPanel(wx.Panel):
         self.Bind(wx.EVT_PAINT, self.OnPaint)
         self.Bind(wx.EVT_TIMER, self.NextFrame)
 
+        self.Bind(wx.EVT_LEFT_UP, self.OnLeftClick)
+
     def init_size(self, frame):
         height, width = frame.shape[:2]
         self.bmp = wx.Bitmap.FromBuffer(width, height, frame)
@@ -92,17 +94,19 @@ class CameraPanel(wx.Panel):
             raise RuntimeError("Cannot get frame")
 
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        cv2.line(  # Horizontal line
+        # N.B. frame.shape returns a tuple: (height, width, color)
+        #      - frame is an ndarray
+        cv2.line(  # Vertical line
             frame,
-            (int(frame.shape[1] * self.model.xhair_centre[1]), 0),
-            (int(frame.shape[1] * self.model.xhair_centre[1]), frame.shape[0]),
+            (int(frame.shape[1] * self.model.xhair_centre[0]), 0),
+            (int(frame.shape[1] * self.model.xhair_centre[0]), frame.shape[0]),
             color=self.model.xhair_colour,
             thickness=self.model.xhair_thickness
         )
-        cv2.line(  # Vertical line
+        cv2.line(  # Horizontal line
             frame,
-            (0, int(frame.shape[0] * self.model.xhair_centre[0])),
-            (frame.shape[1], int(frame.shape[0] * self.model.xhair_centre[0])),
+            (0, int(frame.shape[0] * self.model.xhair_centre[1])),
+            (frame.shape[1], int(frame.shape[0] * self.model.xhair_centre[1])),
             color=self.model.xhair_colour,
             thickness=self.model.xhair_thickness
         )
@@ -124,6 +128,19 @@ class CameraPanel(wx.Panel):
             wx.PostEvent(self.Parent, wx.EVT_SIZE)
 
         self.bmp.CopyFromBuffer(frame)
+        self.Refresh()
+
+    def OnLeftClick(self, evt: wx.MouseEvent):
+        xhair_coord = evt.GetPosition()
+        print(f"New crosshair coord: {xhair_coord}")
+
+        new_xhair_centre = tuple(
+            xhair_coord[i] / self.GetSize().Get()[i]
+            for i in range(2)
+        )
+        print(f"Converted to new crosshair center: {new_xhair_centre}")
+        self.model.xhair_centre = new_xhair_centre
+
         self.Refresh()
 
 
