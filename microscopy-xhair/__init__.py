@@ -16,7 +16,7 @@ def main():
     devs = get_devices()
     
     app = wx.App()
-    model = DataModel(wx.Colour(0, 0, 0), 1, 0, 15, False, devs)
+    model = DataModel(wx.Colour(0, 0, 0), 1, (0.5, 0.5), 0, 15, False, devs)
     capture_ctrl = CaptureController(model=model)
     capture_ctrl.start_capture()
     main = MainWindow(None, model, capture_ctrl, title="MicroscoPy-Xhair")

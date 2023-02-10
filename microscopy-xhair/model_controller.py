@@ -8,6 +8,7 @@ from wx import Colour       # TODO Remove this dependency
 class DataModel:
     xhair_colour: Colour
     xhair_thickness: int
+    xhair_centre: tuple[int, int]
     camera_id: int
     framerate: int
     capture_active: bool

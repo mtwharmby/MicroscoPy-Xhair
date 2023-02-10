@@ -91,17 +91,17 @@ class CameraPanel(wx.Panel):
             raise RuntimeError("Cannot get frame")
 
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        cv2.line(
+        cv2.line(  # Horizontal line
             frame,
-            (int(frame.shape[1]/2), 0),
-            (int(frame.shape[1]/2), frame.shape[0]),
+            (int(frame.shape[1] * self.model.xhair_centre[1]), 0),
+            (int(frame.shape[1] * self.model.xhair_centre[1]), frame.shape[0]),
             color=self.model.xhair_colour,
             thickness=self.model.xhair_thickness
         )
-        cv2.line(
+        cv2.line(  # Vertical line
             frame,
-            (0, int(frame.shape[0]/2)),
-            (frame.shape[1], int(frame.shape[0]/2)),
+            (0, int(frame.shape[0] * self.model.xhair_centre[0])),
+            (frame.shape[1], int(frame.shape[0] * self.model.xhair_centre[0])),
             color=self.model.xhair_colour,
             thickness=self.model.xhair_thickness
         )
