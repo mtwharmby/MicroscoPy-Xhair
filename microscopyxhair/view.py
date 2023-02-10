@@ -34,7 +34,8 @@ class CameraIdChooser(wx.Dialog):
         cancel_btn.Bind(wx.EVT_BUTTON, self.OnCancel)
 
         vbox.Add(combo_label, flag=wx.ALIGN_LEFT | wx.ALL, border=10)
-        vbox.Add(self.combo, flag=wx.ALIGN_LEFT | wx.LEFT | wx.RIGHT, border=10)
+        vbox.Add(self.combo, flag=wx.ALIGN_LEFT | wx.LEFT | wx.RIGHT,
+                 border=10)
         vbox.Add(btn_box, flag=wx.ALIGN_CENTER | wx.ALL, border=10)
 
         self.SetSizer(vbox)
@@ -131,9 +132,9 @@ class MainWindow(wx.Frame):
     def __init__(self, parent, model: DataModel, cap_ctrl: CaptureController,
                  *args, **kw):
         super().__init__(
-            parent, 
-            style=wx.DEFAULT_FRAME_STYLE & ~(wx.RESIZE_BORDER | wx.MAXIMIZE_BOX),
-             *args, **kw)
+            parent, style=(wx.DEFAULT_FRAME_STYLE
+                           & ~(wx.RESIZE_BORDER | wx.MAXIMIZE_BOX)),
+            *args, **kw)
 
         self.model: DataModel = model
         self.capture_ctrl = cap_ctrl
@@ -178,7 +179,7 @@ class MainWindow(wx.Frame):
         new_col = wx.GetColourFromUser(self, self.model.xhair_colour)
         if new_col.IsOk():
             self.model.xhair_colour = new_col
-    
+
     def OnChooseCam(self, evt):
         current_id = self.model.camera_id
         cam_chooser = CameraIdChooser(self, self.model)
@@ -189,6 +190,6 @@ class MainWindow(wx.Frame):
             # Camera has changed, restart the capture
             self.capture_ctrl.stop_capture()
             self.capture_ctrl.start_capture()
-    
+
     def OnSize(self, evt):
         self.vbox.Fit(self)

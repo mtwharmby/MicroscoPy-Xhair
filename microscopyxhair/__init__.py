@@ -8,13 +8,13 @@ from .view import MainWindow
 
 
 def get_devices():
-    return tuple(device.getDeviceList())
+
 
 def main():
-    # Don't understand why, but call to device.getDevices must be 
+    # Don't understand why, but call to device.getDevices must be
     # before the wx.App() call.
     devs = get_devices()
-    
+
     app = wx.App()
     model = DataModel(wx.Colour(0, 0, 0), 1, (0.5, 0.5), 0, 15, False, devs)
     capture_ctrl = CaptureController(model=model)
@@ -25,6 +25,7 @@ def main():
     # wx.lib.inspection.InspectionTool().Show()
 
     app.MainLoop()
+
 
 if __name__ == "__main__":
     main()
