@@ -2,6 +2,7 @@ from dataclasses import dataclass
 import logging
 
 import cv2
+import numpy as np
 from wx import Colour       # TODO Remove this dependency
 
 
@@ -10,6 +11,8 @@ class DataModel:
     xhair_colour: Colour
     xhair_thickness: int
     xhair_centre: tuple[int, int]
+    xhair_hgrads: bool
+    xhair_hgrad_n: int
     camera_id: int
     framerate: int
     capture_active: bool
