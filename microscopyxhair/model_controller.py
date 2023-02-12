@@ -50,6 +50,9 @@ class CrosshairController:
         self.grad_line_points = None
 
     def draw_crosshair(self, frame):
+        """
+        Draw crosshair on frame
+        """
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         self.frame_shape = (frame.shape[1], frame.shape[0])
         # N.B. frame.shape returns a tuple: (height, width, color)
@@ -84,6 +87,9 @@ class CrosshairController:
         return frame
 
     def draw_grad_lines(self, frame):
+        """
+        Draws graduated lines on frame placed relative to crosshair.
+        """
         if self.recentre:
             self.calculate_grad_line_positions()
 
@@ -94,6 +100,9 @@ class CrosshairController:
         )
 
     def recentre_crosshair(self, position, frame_size):
+        """
+        Calculates new fractional position for crosshair & updates model.
+        """
         self.logger.debug(f"New crosshair coord: {position}")
 
         new_xhair_centre = tuple(
@@ -106,6 +115,9 @@ class CrosshairController:
         self.recentre = True
 
     def calculate_grad_line_positions(self):
+        """
+        Calculate positions of the start and end positions of graduated lines.
+        """
         # n refers to number of lines above or below the crosshair
         # We need 2n + 2 divisions to draw these
         frac_grad_sep = 1 / (2 * (self.model.xhair_hgrad_n + 1))
