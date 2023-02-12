@@ -47,6 +47,7 @@ class CrosshairController:
         # This will be a tuple (w, h) reformatted from numpy array shape
         self.frame_shape = None
         self.recentre = True
+        self.grad_line_points = None
 
     def draw_crosshair(self, frame):
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -83,11 +84,33 @@ class CrosshairController:
         return frame
 
     def draw_grad_lines(self, frame):
+        if self.recentre:
+            self.calculate_grad_line_positions()
+
+        cv2.polylines(
+            frame, self.grad_line_points, isClosed=False,
+            color=self.model.xhair_colour,
+            thickness=self.model.xhair_thickness
+        )
+
+    def recentre_crosshair(self, position, frame_size):
+        self.logger.debug(f"New crosshair coord: {position}")
+
+        new_xhair_centre = tuple(
+            position[i] / frame_size[i]
+            for i in range(2)
+        )
+        self.logger.debug("Converted to new crosshair center: "
+                          f"{new_xhair_centre}")
+        self.model.xhair_centre = new_xhair_centre
+        self.recentre = True
+
+    def calculate_grad_line_positions(self):
         # n refers to number of lines above or below the crosshair
         # We need 2n + 2 divisions to draw these
         frac_grad_sep = 1 / (2 * (self.model.xhair_hgrad_n + 1))
 
-        line_points = []
+        self.grad_line_points = []
         for n in range(self.model.xhair_hgrad_n):
             # Nr. fractional separations to add/sub. from crosshair centre
             n_frac_seps = (n + 1) * frac_grad_sep
@@ -105,26 +128,7 @@ class CrosshairController:
                         [self.frame_shape[0], line_pos]
                     ], dtype=np.int32
                 )
-                line_points.append(pts)
+                self.grad_line_points.append(pts)
 
-        if self.recentre:
-            self.logger.debug(f"New graduated line positions:\n{line_points}")
-            # self.logger.debug(f"New grad lines frac positions: {frac_posns}")
-
-        cv2.polylines(
-            frame, line_points, isClosed=False,
-            color=self.model.xhair_colour,
-            thickness=self.model.xhair_thickness
-        )
-
-    def recentre_crosshair(self, position, frame_size):
-        self.logger.debug(f"New crosshair coord: {position}")
-
-        new_xhair_centre = tuple(
-            position[i] / frame_size[i]
-            for i in range(2)
-        )
-        self.logger.debug("Converted to new crosshair center: "
-                          f"{new_xhair_centre}")
-        self.model.xhair_centre = new_xhair_centre
-        self.recentre = True
+        self.logger.debug("New graduated line positions:"
+                          f"\n{self.grad_line_points}")
