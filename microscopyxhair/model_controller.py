@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import logging
 
 import cv2
 from wx import Colour       # TODO Remove this dependency
@@ -18,6 +19,7 @@ class DataModel:
 class CaptureController:
 
     def __init__(self, model: DataModel):
+        self.logger = logging.getLogger(__name__)
         self.model = model
         self.capture = None
 
@@ -26,15 +28,18 @@ class CaptureController:
         if not self.capture.isOpened():
             raise RuntimeError("Cannot open camera")
         self.model.capture_active = True
+        self.logger.debug("Capture started")
 
     def stop_capture(self):
         self.capture.release()
         self.model.capture_active = False
+        self.logger("Capture stopped")
 
 
 class CrosshairController:
 
     def __init__(self, model: DataModel):
+        self.logger = logging.getLogger(__name__)
         self.model = model
 
     def draw_crosshair(self, frame):
