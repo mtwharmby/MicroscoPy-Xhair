@@ -47,6 +47,7 @@ class CrosshairController:
         # This will be a tuple (w, h) reformatted from numpy array shape
         self.frame_shape = None
         self.recentre = True
+        self.xhair_line_points = None
         self.grad_line_points = None
 
     def draw_crosshair(self, frame):
@@ -57,23 +58,27 @@ class CrosshairController:
         self.frame_shape = (frame.shape[1], frame.shape[0])
         # N.B. frame.shape returns a tuple: (height, width, color)
         #      - frame is an ndarray
-        cv2.line(  # Vertical line
-            frame,
-            (int(self.frame_shape[0] * self.model.xhair_centre[0]), 0),
-            (
-                int(self.frame_shape[0] * self.model.xhair_centre[0]),
-                self.frame_shape[1]
-            ),
-            color=self.model.xhair_colour,
-            thickness=self.model.xhair_thickness
-        )
-        cv2.line(  # Horizontal line
-            frame,
-            (0, int(self.frame_shape[1] * self.model.xhair_centre[1])),
-            (
-                self.frame_shape[0],
-                int(self.frame_shape[1] * self.model.xhair_centre[1])
-            ),
+
+        if self.recentre:
+            # Calculates points for crosshair lines. Only called when required
+            # - i.e. when crosshair recentered
+            self.xhair_line_points = [
+                np.array(
+                    [  # Vertical line
+                        [self.frame_shape[0] * self.model.xhair_centre[0], 0],
+                        [self.frame_shape[0] * self.model.xhair_centre[0],
+                         self.frame_shape[1]]
+                    ], np.int32),
+                np.array(
+                    [  # Horizontal line
+                        [0, self.frame_shape[1] * self.model.xhair_centre[1]],
+                        [self.frame_shape[0],
+                         self.frame_shape[1] * self.model.xhair_centre[1]]
+                    ], np.int32)
+            ]
+
+        cv2.polylines(
+            frame, self.xhair_line_points, isClosed=False,
             color=self.model.xhair_colour,
             thickness=self.model.xhair_thickness
         )
