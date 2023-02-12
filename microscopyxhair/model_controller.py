@@ -61,3 +61,14 @@ class CrosshairController:
             thickness=self.model.xhair_thickness
         )
         return frame
+
+    def recentre_crosshair(self, position, frame_size):
+        self.logger.debug(f"New crosshair coord: {position}")
+
+        new_xhair_centre = tuple(
+            position[i] / frame_size[i]
+            for i in range(2)
+        )
+        self.logger.debug("Converted to new crosshair center: "
+                          f"{new_xhair_centre}")
+        self.model.xhair_centre = new_xhair_centre

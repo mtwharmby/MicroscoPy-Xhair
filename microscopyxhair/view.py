@@ -119,17 +119,9 @@ class CameraPanel(wx.Panel):
         self.Refresh()
 
     def OnLeftClick(self, evt: wx.MouseEvent):
-        # TODO Move this to CrosshairController
-        xhair_coord = evt.GetPosition()
-        self.logger.debug(f"New crosshair coord: {xhair_coord}")
-
-        new_xhair_centre = tuple(
-            xhair_coord[i] / self.GetSize().Get()[i]
-            for i in range(2)
+        self.xhair_ctrl.recentre_crosshair(
+            evt.GetPosition(), self.GetSize().Get()
         )
-        self.logger.debug("Converted to new crosshair center: "
-                          f"{new_xhair_centre}")
-        self.model.xhair_centre = new_xhair_centre
 
         self.Refresh()
 
