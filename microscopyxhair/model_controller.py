@@ -41,22 +41,31 @@ class CrosshairController:
     def __init__(self, model: DataModel):
         self.logger = logging.getLogger(__name__)
         self.model = model
+        # This will be a tuple (w, h) reformatted from numpy array shape
+        self.frame_shape = None
 
     def draw_crosshair(self, frame):
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        self.frame_shape = (frame.shape[1], frame.shape[0])
         # N.B. frame.shape returns a tuple: (height, width, color)
         #      - frame is an ndarray
         cv2.line(  # Vertical line
             frame,
-            (int(frame.shape[1] * self.model.xhair_centre[0]), 0),
-            (int(frame.shape[1] * self.model.xhair_centre[0]), frame.shape[0]),
+            (int(self.frame_shape[0] * self.model.xhair_centre[0]), 0),
+            (
+                int(self.frame_shape[0] * self.model.xhair_centre[0]),
+                self.frame_shape[1]
+            ),
             color=self.model.xhair_colour,
             thickness=self.model.xhair_thickness
         )
         cv2.line(  # Horizontal line
             frame,
-            (0, int(frame.shape[0] * self.model.xhair_centre[1])),
-            (frame.shape[1], int(frame.shape[0] * self.model.xhair_centre[1])),
+            (0, int(self.frame_shape[1] * self.model.xhair_centre[1])),
+            (
+                self.frame_shape[0],
+                int(self.frame_shape[1] * self.model.xhair_centre[1])
+            ),
             color=self.model.xhair_colour,
             thickness=self.model.xhair_thickness
         )
