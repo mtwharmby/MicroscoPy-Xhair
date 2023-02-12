@@ -43,6 +43,7 @@ class CrosshairController:
         self.model = model
         # This will be a tuple (w, h) reformatted from numpy array shape
         self.frame_shape = None
+        self.recentre = True
 
     def draw_crosshair(self, frame):
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -69,7 +70,40 @@ class CrosshairController:
             color=self.model.xhair_colour,
             thickness=self.model.xhair_thickness
         )
+
+        if self.model.xhair_hgrads:
+            self.draw_grad_lines(frame)
+
+        # All one-time actions, post recentre, complete. Switch off flag
+        self.recentre = False
+
         return frame
+
+    def draw_grad_lines(self, frame):
+        # n refers to number of lines above or below the crosshair
+        # We need 2n + 2 divisions to draw these
+        frac_grad_sep = 1 / (2 * (self.model.xhair_hgrad_n + 1))
+        frac_posns = []
+        for n in range(self.model.xhair_hgrad_n):
+            n_frac_seps = (n + 1) * frac_grad_sep
+            frac_posns.append(self.model.xhair_centre[1] - n_frac_seps)
+            frac_posns.append(self.model.xhair_centre[1] + n_frac_seps)
+
+        if self.recentre:
+            self.logger.debug(f"New grad lines frac positions: {frac_posns}")
+
+        for frac_pos in frac_posns:
+            line_pos = self.frame_shape[1] * frac_pos
+            cv2.line(  # Horizontal line
+                frame,
+                (0, int(line_pos)),
+                (
+                    self.frame_shape[0],
+                    int(line_pos)
+                ),
+                color=self.model.xhair_colour,
+                thickness=self.model.xhair_thickness
+            )
 
     def recentre_crosshair(self, position, frame_size):
         self.logger.debug(f"New crosshair coord: {position}")
@@ -81,3 +115,4 @@ class CrosshairController:
         self.logger.debug("Converted to new crosshair center: "
                           f"{new_xhair_centre}")
         self.model.xhair_centre = new_xhair_centre
+        self.recentre = True
