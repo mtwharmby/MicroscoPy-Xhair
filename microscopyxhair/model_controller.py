@@ -83,27 +83,36 @@ class CrosshairController:
         # n refers to number of lines above or below the crosshair
         # We need 2n + 2 divisions to draw these
         frac_grad_sep = 1 / (2 * (self.model.xhair_hgrad_n + 1))
-        frac_posns = []
+
+        line_points = []
         for n in range(self.model.xhair_hgrad_n):
+            # Nr. fractional separations to add/sub. from crosshair centre
             n_frac_seps = (n + 1) * frac_grad_sep
-            frac_posns.append(self.model.xhair_centre[1] - n_frac_seps)
-            frac_posns.append(self.model.xhair_centre[1] + n_frac_seps)
+            for fac in [-1, 1]:
+                # Calculate fractional position of line then its absolute by
+                # multiplying by frame size
+                frac_line_pos = (self.model.xhair_centre[1]
+                                 + (fac * n_frac_seps))
+                line_pos = self.frame_shape[1] * frac_line_pos
+
+                # This array is two points: line begin & end
+                pts = np.array(
+                    [
+                        [0, line_pos],
+                        [self.frame_shape[0], line_pos]
+                    ], dtype=np.int32
+                )
+                line_points.append(pts)
 
         if self.recentre:
-            self.logger.debug(f"New grad lines frac positions: {frac_posns}")
+            self.logger.debug(f"New graduated line positions:\n{line_points}")
+            # self.logger.debug(f"New grad lines frac positions: {frac_posns}")
 
-        for frac_pos in frac_posns:
-            line_pos = self.frame_shape[1] * frac_pos
-            cv2.line(  # Horizontal line
-                frame,
-                (0, int(line_pos)),
-                (
-                    self.frame_shape[0],
-                    int(line_pos)
-                ),
-                color=self.model.xhair_colour,
-                thickness=self.model.xhair_thickness
-            )
+        cv2.polylines(
+            frame, line_points, isClosed=False,
+            color=self.model.xhair_colour,
+            thickness=self.model.xhair_thickness
+        )
 
     def recentre_crosshair(self, position, frame_size):
         self.logger.debug(f"New crosshair coord: {position}")
