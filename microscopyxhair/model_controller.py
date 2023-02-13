@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 from wx import Colour       # TODO Remove this dependency
 
-from .utils import dashed_lines
+from .utils import dashed_polylines
 
 
 @dataclass
@@ -51,6 +51,7 @@ class CrosshairController:
         self.recentre = True
         self.xhair_line_points = None
         self.grad_line_points = None
+        self.grad_dash_line_points = None
 
     def draw_crosshair(self, frame):
         """
@@ -98,10 +99,15 @@ class CrosshairController:
         Draws graduated lines on frame placed relative to crosshair.
         """
         if self.recentre:
-            self.calculate_grad_line_positions()
+            self.calculate_grad_line_points()
 
-        dashed_lines(frame, self.grad_line_points, self.model.xhair_colour,
-                     self.model.xhair_thickness)
+        self.grad_dash_line_points = dashed_polylines(
+            frame, self.grad_line_points,
+            self.model.xhair_colour,
+            self.model.xhair_thickness,
+            use_cached=(not self.recentre),
+            cached=self.grad_dash_line_points
+        )
 
     def recentre_crosshair(self, position, frame_size):
         """
@@ -118,9 +124,9 @@ class CrosshairController:
         self.model.xhair_centre = new_xhair_centre
         self.recentre = True
 
-    def calculate_grad_line_positions(self):
+    def calculate_grad_line_points(self):
         """
-        Calculate positions of the start and end positions of graduated lines.
+        Calculate start and end positions of graduated lines.
         """
         # n refers to number of lines above or below the crosshair
         # We need 2n + 2 divisions to draw these
