@@ -1,0 +1,3 @@
+[submodule "submodules/python-capture-device-list.git"]
+	path = submodules/python-capture-device-list.git
+	url = git@github.com:mtwharmby/python-capture-device-list.git
