@@ -1,6 +1,0 @@
-[submodule "submodules/python-capture-device-list"]
-	path = submodules/python-capture-device-list
-	url = git@github.com:yushulx/python-capture-device-list.git
-[submodule "submodules/python-capture-device-list.git"]
-	path = submodules/python-capture-device-list.git
-	url = git@github.com:yushulx/python-capture-device-list.git
