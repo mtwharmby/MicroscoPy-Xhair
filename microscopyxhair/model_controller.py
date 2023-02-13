@@ -5,6 +5,8 @@ import cv2
 import numpy as np
 from wx import Colour       # TODO Remove this dependency
 
+from .utils import dashed_lines
+
 
 @dataclass
 class DataModel:
@@ -98,11 +100,8 @@ class CrosshairController:
         if self.recentre:
             self.calculate_grad_line_positions()
 
-        cv2.polylines(
-            frame, self.grad_line_points, isClosed=False,
-            color=self.model.xhair_colour,
-            thickness=self.model.xhair_thickness
-        )
+        dashed_lines(frame, self.grad_line_points, self.model.xhair_colour,
+                     self.model.xhair_thickness)
 
     def recentre_crosshair(self, position, frame_size):
         """
