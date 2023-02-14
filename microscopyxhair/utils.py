@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 def convert_line_to_dashed_line(points_list: list[np.array], n_dash=80):
     # n_dash needs to be odd to ensure we get a dash on each end of the line
-    if n_dash % 2:
+    if not n_dash & 1:
         n_dash = n_dash + 1
 
     dash_points = []
@@ -24,8 +24,9 @@ def convert_line_to_dashed_line(points_list: list[np.array], n_dash=80):
         point = pair[0]
         for n in range(0, n_dash):
             next_point = point + new_line
-            if n & 1:
-                # Add only every second line segment to get dashes
+            if not n & 1:
+                # Add only every other line segment, starting with first,
+                # to get dashes
                 dash_points.append(np.array([point, next_point], np.int32))
             point = next_point
 
