@@ -26,6 +26,7 @@ def main():
     # wx.lib.inspection.InspectionTool().Show()
 
     app.MainLoop()
+    capture_ctrl.stop_capture()
 
 
 if __name__ == "__main__":
