@@ -105,7 +105,9 @@ class CrosshairController:
 
             if grad_dashed:
                 self.grad_dash_line_points = convert_line_to_dashed_line(
-                    points_list=self.grad_line_points, n_dash=80
+                    points_list=self.grad_line_points,
+                    n_dash=int(self.frame_shape[0] / 10)
+                    # 10 is desired dash length
                 )
 
         if grad_dashed:
