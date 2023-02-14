@@ -1,6 +1,7 @@
 import logging
 
 import cv2
+import device
 import numpy as np
 
 logger = logging.getLogger(__name__)
@@ -46,3 +47,9 @@ def dashed_polylines(frame, points_list: list[np.array], colour, thickness,
     )
 
     return dash_points
+
+
+def get_device_names() -> tuple[str, ...]:
+    # getDeviceList() also returns the resolutions the camera can show.
+    dev_names = [d[0] for d in device.getDeviceList()]
+    return tuple(dev_names)

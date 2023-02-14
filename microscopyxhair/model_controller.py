@@ -18,7 +18,7 @@ class DataModel:
     camera_id: int
     framerate: int
     capture_active: bool
-    available_cameras: tuple
+    available_cameras: tuple[str, ...]
 
 
 class CaptureController:

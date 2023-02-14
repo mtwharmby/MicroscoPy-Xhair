@@ -1,24 +1,17 @@
 import logging
 
-import device
 import wx
 # import wx.lib.inspection
 
 from .model_controller import DataModel, CaptureController
+from .utils import get_device_names
 from .view import MainWindow
-
-
-def get_devices():
-    # TODO Move to utils
-    # getDeviceList() also returns the resolutions the camera can show.
-    dev_names = [d[0] for d in device.getDeviceList()]
-    return tuple(dev_names)
 
 
 def main():
     # Don't understand why, but call to device.getDevices must be
     # before the wx.App() call.
-    devs = get_devices()
+    devs = get_device_names()
 
     app = wx.App()
     model = DataModel(
