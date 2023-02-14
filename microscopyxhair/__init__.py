@@ -1,5 +1,6 @@
-import device
+import logging
 
+import device
 import wx
 # import wx.lib.inspection
 
@@ -8,6 +9,10 @@ from .view import MainWindow
 
 
 def get_devices():
+    # TODO Move to utils
+    # getDeviceList() also returns the resolutions the camera can show.
+    dev_names = [d[0] for d in device.getDeviceList()]
+    return tuple(dev_names)
 
 
 def main():
@@ -16,7 +21,10 @@ def main():
     devs = get_devices()
 
     app = wx.App()
-    model = DataModel(wx.Colour(0, 0, 0), 1, (0.5, 0.5), 0, 15, False, devs)
+    model = DataModel(
+        wx.Colour(0, 0, 0), 1, (0.5, 0.5), True, 2,
+        0, 15, False, devs
+    )
     capture_ctrl = CaptureController(model=model)
     capture_ctrl.start_capture()
     main = MainWindow(None, model, capture_ctrl, title="MicroscoPy-Xhair")
@@ -28,4 +36,5 @@ def main():
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.WARNING)
     main()
