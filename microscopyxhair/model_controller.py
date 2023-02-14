@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 from wx import Colour       # TODO Remove this dependency
 
-from .utils import dashed_polylines
+from .utils import convert_line_to_dashed_line
 
 
 @dataclass
@@ -98,15 +98,24 @@ class CrosshairController:
         """
         Draws graduated lines on frame placed relative to crosshair.
         """
+        grad_dashed = True  # TODO Consider putting this in the model
         if self.recentre:
             self.calculate_grad_line_points()
 
-        self.grad_dash_line_points = dashed_polylines(
-            frame, self.grad_line_points,
-            self.model.xhair_colour,
-            self.model.xhair_thickness,
-            use_cached=(not self.recentre),
-            cached=self.grad_dash_line_points
+            if grad_dashed:
+                self.grad_dash_line_points = convert_line_to_dashed_line(
+                    points_list=self.grad_line_points, n_dash=80
+                )
+
+        if grad_dashed:
+            grad_line_points = self.grad_dash_line_points
+        else:
+            grad_line_points = self.grad_line_points
+
+        cv2.polylines(
+            frame, grad_line_points, isClosed=False,
+            color=self.model.xhair_colour,
+            thickness=self.model.xhair_thickness,
         )
 
     def recentre_crosshair(self, position, frame_size):

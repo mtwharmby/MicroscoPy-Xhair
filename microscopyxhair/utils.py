@@ -1,13 +1,12 @@
 import logging
 
-import cv2
 import device
 import numpy as np
 
 logger = logging.getLogger(__name__)
 
 
-def convert_to_dashed_line_points(points_list: list[np.array], n_dash=80):
+def convert_line_to_dashed_line(points_list: list[np.array], n_dash=80):
     # n_dash needs to be odd to ensure we get a dash on each end of the line
     if n_dash % 2:
         n_dash = n_dash + 1
@@ -29,22 +28,6 @@ def convert_to_dashed_line_points(points_list: list[np.array], n_dash=80):
                 # Add only every second line segment to get dashes
                 dash_points.append(np.array([point, next_point], np.int32))
             point = next_point
-
-    return dash_points
-
-
-def dashed_polylines(frame, points_list: list[np.array], colour, thickness,
-                     n_dash=80, use_cached=False, cached=None):
-    if not use_cached:
-        dash_points = convert_to_dashed_line_points(points_list, n_dash)
-    else:
-        dash_points = cached
-
-    cv2.polylines(
-        frame, dash_points, isClosed=False,
-        color=colour,
-        thickness=thickness,
-    )
 
     return dash_points
 
