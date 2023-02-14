@@ -15,6 +15,7 @@ class DataModel:
     xhair_centre: tuple[int, int]
     xhair_hgrads: bool
     xhair_hgrad_n: int
+    xhair_hgrads_fixed_sep: int
     camera_id: int
     framerate: int
     capture_active: bool
@@ -139,7 +140,11 @@ class CrosshairController:
         """
         # n refers to number of lines above or below the crosshair
         # We need 2n + 2 divisions to draw these
-        frac_grad_sep = 1 / (2 * (self.model.xhair_hgrad_n + 1))
+        if self.model.xhair_hgrads_fixed_sep:
+            frac_grad_sep = (self.model.xhair_hgrads_fixed_sep
+                             / self.frame_shape[1])
+        else:
+            frac_grad_sep = 1 / (2 * (self.model.xhair_hgrad_n + 1))
 
         self.grad_line_points = []
         for n in range(self.model.xhair_hgrad_n):

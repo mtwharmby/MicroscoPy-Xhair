@@ -15,7 +15,7 @@ def main():
 
     app = wx.App()
     model = DataModel(
-        wx.Colour(0, 0, 0), 1, (0.5, 0.5), True, 2,
+        wx.Colour(0, 0, 0), 1, (0.5, 0.5), True, 2, None,
         0, 15, False, devs
     )
     capture_ctrl = CaptureController(model=model)
