@@ -38,7 +38,7 @@ class CaptureController:
     def stop_capture(self):
         self.capture.release()
         self.model.capture_active = False
-        self.logger("Capture stopped")
+        self.logger.debug("Capture stopped")
 
 
 class CrosshairController:
