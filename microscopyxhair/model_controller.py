@@ -20,6 +20,7 @@ class DataModel:
     framerate: int
     capture_active: bool
     available_cameras: tuple[str, ...]
+    force_redraw: bool
 
 
 class CaptureController:
@@ -63,7 +64,7 @@ class CrosshairController:
         # N.B. frame.shape returns a tuple: (height, width, color)
         #      - frame is an ndarray
 
-        if self.recentre:
+        if self.recentre or self.model.force_redraw:
             # Calculates points for crosshair lines. Only called when required
             # - i.e. when crosshair recentered
             self.xhair_line_points = [
@@ -92,6 +93,7 @@ class CrosshairController:
 
         # All one-time actions, post recentre, complete. Switch off flag
         self.recentre = False
+        self.model.force_redraw = False
 
         return frame
 
@@ -100,7 +102,7 @@ class CrosshairController:
         Draws graduated lines on frame placed relative to crosshair.
         """
         grad_dashed = True  # TODO Consider putting this in the model
-        if self.recentre:
+        if self.recentre or self.model.force_redraw:
             self.calculate_grad_line_points()
 
             if grad_dashed:
