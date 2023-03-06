@@ -2,7 +2,7 @@ import wx
 
 from .model_controller import DataModel, CaptureController
 from .camera_view import CameraPanel
-from .config_views import CameraIdChooser
+from .config_views import CameraIdChooser, CrosshairConfig
 
 
 class MainWindow(wx.Frame):
@@ -29,12 +29,17 @@ class MainWindow(wx.Frame):
         xhair_col = file_menu.Append(
             wx.ID_ANY, "Crosshair Color...", "Select crosshair color"
         )
+        xhair_config = file_menu.Append(
+            wx.ID_ANY, "Configure crosshair...",
+            "Change how crosshair is drawn"
+        )
         exit_item = file_menu.Append(wx.ID_EXIT, "Quit", "Quit application")
         menubar.Append(file_menu, "&File")
         self.SetMenuBar(menubar)
 
         self.Bind(wx.EVT_MENU, self.OnChooseCam, choose_cam)
         self.Bind(wx.EVT_MENU, self.OnXhairColour, xhair_col)
+        self.Bind(wx.EVT_MENU, self.OnXhairConfig, xhair_config)
         self.Bind(wx.EVT_MENU, self.OnQuit, exit_item)
 
         bkg_panel = wx.Panel(self)
@@ -57,6 +62,11 @@ class MainWindow(wx.Frame):
         new_col = wx.GetColourFromUser(self, self.model.xhair_colour)
         if new_col.IsOk():
             self.model.xhair_colour = new_col
+
+    def OnXhairConfig(self, evt):
+        xhair_config = CrosshairConfig(self, self.model)
+        xhair_config.ShowModal()
+        xhair_config.Destroy()
 
     def OnChooseCam(self, evt):
         current_id = self.model.camera_id
