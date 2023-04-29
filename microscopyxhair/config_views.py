@@ -144,12 +144,15 @@ class CrosshairConfig(wx.Dialog):
         vbox.Add(hgrads_sbs, flag=wx.EXPAND | wx.ALL, border=10)
 
         # Button bar
-        
+        button_bar_sizer = wx.BoxSizer(wx.HORIZONTAL)
         close_button = wx.Button(self, label="Close")
         close_button.Bind(wx.EVT_BUTTON, self.OnClose)
-        vbox.Add(close_button,
-                 flag=wx.ALIGN_CENTER_HORIZONTAL | wx.TOP | wx.BOTTOM,
-                 border=10)
+        button_bar_sizer.Add(close_button, flag=wx.LEFT | wx.RIGHT, border=10)
+        # TODO BIND
+        default_button = wx.Button(self, label="Reset")
+        button_bar_sizer.Add(default_button, flag=wx.RIGHT, border=10)
+
+        vbox.Add(button_bar_sizer, flag=wx.EXPAND | wx.BOTTOM, border=10)
 
         # Resizes dialog (self) so that all the elements in vbox fit exactly
         vbox.Fit(self)
