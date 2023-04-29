@@ -1,0 +1,18 @@
+- Change crosshair with double click(?)
+- Correct (modern) python packaging
+- Packaging for Windows
+  - Portable Executable
+  - Installable (i.e. extracted from a ZIP)
+- Setup program
+- Reset crosshair centre
+- Icon
+
+- Calibration mode
+ - Show triangle not crosshair on screen (the pin)
+ - Also show horizontal line
+ - Disable crosshair formatting
+ - Change centre position(?)
+
+- Saving of crosshair between sessions
+
+- Rotate screen through 90deg?
