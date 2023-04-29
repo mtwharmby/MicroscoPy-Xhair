@@ -83,7 +83,6 @@ class CrosshairConfig(wx.Dialog):
         # TODO Document
         # TODO Disabling HGrad controls when HGrads disabled
         # TODO Cleanup layout
-        # TODO Add button to close
         # TODO Initial placement not on top of main window?
         vbox = wx.BoxSizer(wx.VERTICAL)
 
@@ -140,6 +139,14 @@ class CrosshairConfig(wx.Dialog):
 
         vbox.Add(hgrads_sbs, flag=wx.EXPAND | wx.ALL, border=10)
 
+        close_button = wx.Button(self, label="Close")
+        close_button.Bind(wx.EVT_BUTTON, self.OnClose)
+        vbox.Add(close_button,
+                 flag=wx.ALIGN_CENTER_HORIZONTAL | wx.TOP | wx.BOTTOM,
+                 border=10)
+
+        # Resizes dialog (self) so that all the elements in vbox fit exactly
+        vbox.Fit(self)
         self.SetSizer(vbox)
 
     def update_model(self, attr_name: str, evt: wx.Event, val=None):
@@ -166,6 +173,9 @@ class CrosshairConfig(wx.Dialog):
         new_col = wx.GetColourFromUser(self, self.model.xhair_colour)
         if new_col.IsOk():
             self.update_model("xhair_colour", evt, val=new_col)
+
+    def OnClose(self, evt):
+        self.Close()
 
 
 class SliderWithValue(wx.Panel):
