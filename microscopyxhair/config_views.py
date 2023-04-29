@@ -117,7 +117,7 @@ class CrosshairConfig(wx.Dialog):
 
         self.hgrad_cb_id = wx.NewId()
         hgrad_on_check = wx.CheckBox(
-            hgrads_sbox, id=self.hgrad_cb_id, label="Enable"
+            hgrads_sbox, id=self.hgrad_cb_id, label="Show"
         )
         hgrad_on_check.SetValue(self.model.xhair_hgrads)
         self.Bind(wx.EVT_CHECKBOX, self.UpdateHGrads, id=self.hgrad_cb_id)
