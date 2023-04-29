@@ -1,4 +1,5 @@
 import logging
+from typing import Callable
 
 import wx
 
@@ -75,13 +76,13 @@ class CrosshairConfig(wx.Dialog):
         self.logger = logging.getLogger(__name__)
 
         self.model = model
+        self.dynamic_widgets: dict[str, EnableHandler] = {}
 
         self.init_ui()
         self.SetTitle("Configure Crosshair")
 
     def init_ui(self):
         # TODO Document
-        # TODO Disabling HGrad controls when HGrads disabled
         # TODO Cleanup layout
         # TODO Initial placement not on top of main window?
         vbox = wx.BoxSizer(wx.VERTICAL)
@@ -127,9 +128,17 @@ class CrosshairConfig(wx.Dialog):
         n_hgrads_slider = SliderWithValue(
             hgrads_sbox, self.model.xhair_hgrad_n, 1, 5
         )
+        # Sets initial enable/disable state of the widget
+        # (important unless we call the EnableHandler explicitly)
+        n_hgrads_slider.Enable(hgrad_on_check.IsChecked())
         self.Bind(
             wx.EVT_SCROLL, self.UpdateNumHGrads, id=n_hgrads_slider.SliderId
         )
+
+        hgrad_enabler = EnableHandler(
+            hgrad_on_check.IsChecked, [n_hgrads_slider,]
+        )
+        self.dynamic_widgets["xhair_hgrads"] = hgrad_enabler
 
         hgrads_sbs.Add(hgrad_on_check, flag=wx.ALIGN_LEFT | wx.ALL, border=10)
         hgrads_sbs.Add(
@@ -177,6 +186,9 @@ class CrosshairConfig(wx.Dialog):
         self.update_model("xhair_hgrad_n", evt)
 
     def UpdateHGrads(self, evt: wx.CommandEvent):
+        enabler = self.dynamic_widgets["xhair_hgrads"]
+        enabler.handle_enable()
+
         self.update_model("xhair_hgrads", evt)
 
     def ChooseColour(self, evt):
@@ -231,3 +243,20 @@ class SliderWithValue(wx.Panel):
     @property
     def SliderId(self):
         return self.slider_id
+
+
+class EnableHandler:
+
+    def __init__(
+            self, controller: Callable[[], bool], dependents: list[wx.Panel]
+    ) -> None:
+        self.controller = controller
+        self.dependents = dependents
+
+    @property
+    def is_enabled(self) -> bool:
+        return self.controller()
+
+    def handle_enable(self) -> None:
+        for wdgt in self.dependents:
+            wdgt.Enable(self.is_enabled)
