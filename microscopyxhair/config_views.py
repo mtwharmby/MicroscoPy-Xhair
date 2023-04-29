@@ -86,6 +86,7 @@ class CrosshairConfig(wx.Dialog):
         # TODO Initial placement not on top of main window?
         vbox = wx.BoxSizer(wx.VERTICAL)
 
+        # Line colour controls
         colour_hbox = wx.BoxSizer(wx.HORIZONTAL)
         colour_label = wx.StaticText(self, label="Colour:")
         colour_button = wx.Button(self, label="Select")
@@ -94,19 +95,22 @@ class CrosshairConfig(wx.Dialog):
                         flag=wx.ALIGN_CENTER_VERTICAL | wx.LEFT, border=10)
         colour_button.Bind(wx.EVT_BUTTON, self.ChooseColour)
 
+        vbox.Add(colour_hbox, flag=wx.ALIGN_LEFT | wx.LEFT | wx.RIGHT,
+                 border=10)
+
+        # Line thickness controls
         thick_label = wx.StaticText(self, label="Thickness:")
         thick_slider = SliderWithValue(self, self.model.xhair_thickness, 1, 5)
         self.Bind(
             wx.EVT_SCROLL, self.UpdateThickness, id=thick_slider.SliderId
         )
 
-        vbox.Add(colour_hbox, flag=wx.ALIGN_LEFT | wx.LEFT | wx.RIGHT,
-                 border=10)
         vbox.Add(thick_label, flag=wx.ALIGN_LEFT | wx.LEFT | wx.RIGHT,
                  border=10)
         vbox.Add(thick_slider, flag=wx.ALIGN_LEFT | wx.LEFT | wx.RIGHT,
                  border=10)
 
+        # Controls of the horizontal gradations:
         hgrads_sbox = wx.StaticBox(self,
                                    label="Horizontal Gradations:")
         hgrads_sbs = wx.StaticBoxSizer(hgrads_sbox, orient=wx.VERTICAL)
@@ -139,6 +143,8 @@ class CrosshairConfig(wx.Dialog):
 
         vbox.Add(hgrads_sbs, flag=wx.EXPAND | wx.ALL, border=10)
 
+        # Button bar
+        
         close_button = wx.Button(self, label="Close")
         close_button.Bind(wx.EVT_BUTTON, self.OnClose)
         vbox.Add(close_button,
