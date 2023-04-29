@@ -23,6 +23,17 @@ class DataModel:
     force_redraw: bool
 
 
+def reset_crosshair_formatting(model):
+    """
+    Reset the crosshair format model parameters to safe defaults
+    """
+    model.xhair_colour = Colour(0, 0, 0)
+    model.xhair_thickness = 1
+    model.xhair_hgrads = True
+    model.xhair_hgrad_n = 2
+    model.xhair_hgrads_fixed_sep = None
+
+
 class CaptureController:
 
     def __init__(self, model: DataModel):

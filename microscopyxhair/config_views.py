@@ -2,7 +2,7 @@ import logging
 
 import wx
 
-from .model_controller import DataModel
+from .model_controller import DataModel, reset_crosshair_formatting
 
 
 class CameraIdChooser(wx.Dialog):
@@ -148,8 +148,9 @@ class CrosshairConfig(wx.Dialog):
         close_button = wx.Button(self, label="Close")
         close_button.Bind(wx.EVT_BUTTON, self.OnClose)
         button_bar_sizer.Add(close_button, flag=wx.LEFT | wx.RIGHT, border=10)
-        # TODO BIND
+
         default_button = wx.Button(self, label="Reset")
+        default_button.Bind(wx.EVT_BUTTON, self.OnReset)
         button_bar_sizer.Add(default_button, flag=wx.RIGHT, border=10)
 
         vbox.Add(button_bar_sizer, flag=wx.EXPAND | wx.BOTTOM, border=10)
@@ -182,6 +183,9 @@ class CrosshairConfig(wx.Dialog):
         new_col = wx.GetColourFromUser(self, self.model.xhair_colour)
         if new_col.IsOk():
             self.update_model("xhair_colour", evt, val=new_col)
+
+    def OnReset(self, evt):
+        reset_crosshair_formatting(self.model)
 
     def OnClose(self, evt):
         self.Close()
