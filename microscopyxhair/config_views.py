@@ -82,7 +82,6 @@ class CrosshairConfig(wx.Dialog):
     def init_ui(self):
         # TODO Document
         # TODO Disabling HGrad controls when HGrads disabled
-        # TODO Move colour setting
         # TODO Cleanup layout
         # TODO Add button to close
         # TODO Initial placement not on top of main window?
@@ -94,6 +93,7 @@ class CrosshairConfig(wx.Dialog):
         colour_hbox.Add(colour_label, flag=wx.ALIGN_CENTER_VERTICAL)
         colour_hbox.Add(colour_button,
                         flag=wx.ALIGN_CENTER_VERTICAL | wx.LEFT, border=10)
+        colour_button.Bind(wx.EVT_BUTTON, self.ChooseColour)
 
         thick_label = wx.StaticText(self, label="Thickness:")
         thick_slider = SliderWithValue(self, self.model.xhair_thickness, 1, 5)
@@ -142,9 +142,10 @@ class CrosshairConfig(wx.Dialog):
 
         self.SetSizer(vbox)
 
-    def update_model(self, attr_name: str, evt: wx.Event):
-        elem = evt.GetEventObject()
-        val = elem.GetValue()
+    def update_model(self, attr_name: str, evt: wx.Event, val=None):
+        if not val:
+            elem = evt.GetEventObject()
+            val = elem.GetValue()
         if getattr(self.model, attr_name) == val:
             # Value has not changed - do nothing
             return
@@ -160,6 +161,11 @@ class CrosshairConfig(wx.Dialog):
 
     def UpdateHGrads(self, evt: wx.CommandEvent):
         self.update_model("xhair_hgrads", evt)
+
+    def ChooseColour(self, evt):
+        new_col = wx.GetColourFromUser(self, self.model.xhair_colour)
+        if new_col.IsOk():
+            self.update_model("xhair_colour", evt, val=new_col)
 
 
 class SliderWithValue(wx.Panel):

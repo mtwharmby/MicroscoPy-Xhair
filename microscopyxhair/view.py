@@ -26,9 +26,6 @@ class MainWindow(wx.Frame):
         choose_cam = file_menu.Append(
             wx.ID_ANY, "Active Camera...", "Select active camere"
         )
-        xhair_col = file_menu.Append(
-            wx.ID_ANY, "Crosshair Color...", "Select crosshair color"
-        )
         xhair_config = file_menu.Append(
             wx.ID_ANY, "Configure crosshair...",
             "Change how crosshair is drawn"
@@ -38,7 +35,6 @@ class MainWindow(wx.Frame):
         self.SetMenuBar(menubar)
 
         self.Bind(wx.EVT_MENU, self.OnChooseCam, choose_cam)
-        self.Bind(wx.EVT_MENU, self.OnXhairColour, xhair_col)
         self.Bind(wx.EVT_MENU, self.OnXhairConfig, xhair_config)
         self.Bind(wx.EVT_MENU, self.OnQuit, exit_item)
 
@@ -57,11 +53,6 @@ class MainWindow(wx.Frame):
     def OnQuit(self, evt):
         self.capture_ctrl.stop_capture()
         self.Close()
-
-    def OnXhairColour(self, evt):
-        new_col = wx.GetColourFromUser(self, self.model.xhair_colour)
-        if new_col.IsOk():
-            self.model.xhair_colour = new_col
 
     def OnXhairConfig(self, evt):
         xhair_config = CrosshairConfig(self, self.model)
