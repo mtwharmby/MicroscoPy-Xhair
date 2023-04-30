@@ -26,6 +26,9 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
+[project.scripts]
+microxhair = "microscopyxhair:start_microscopyxhair"
+
 [project.urls]
 "Homepage" = "https://github.com/mtwharmby/MicroscoPy-Xhair"
 "Bug Tracker" = "https://github.com/mtwharmby/MicroscoPy-Xhair/issues"

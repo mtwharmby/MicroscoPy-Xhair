@@ -30,6 +30,10 @@ def main():
     capture_ctrl.stop_capture()
 
 
-if __name__ == "__main__":
+def start_microscopyxhair():
     logging.basicConfig(level=logging.WARNING)
     main()
+
+
+if __name__ == "__main__":
+    start_microscopyxhair()
