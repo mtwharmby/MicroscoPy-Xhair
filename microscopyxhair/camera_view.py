@@ -31,7 +31,8 @@ class CameraPanel(wx.Panel):
         self.Bind(wx.EVT_PAINT, self.OnPaint)
         self.Bind(wx.EVT_TIMER, self.NextFrame)
 
-        self.Bind(wx.EVT_LEFT_UP, self.OnLeftClick)
+        # For mouse events see: https://docs.wxpython.org/wx.MouseEvent.html
+        self.Bind(wx.EVT_RIGHT_DCLICK, self.RecenterByClick)
 
     def init_size(self, frame):
         height, width = frame.shape[:2]
@@ -69,7 +70,7 @@ class CameraPanel(wx.Panel):
         self.bmp.CopyFromBuffer(frame)
         self.Refresh()
 
-    def OnLeftClick(self, evt: wx.MouseEvent):
+    def RecenterByClick(self, evt: wx.MouseEvent):
         self.xhair_ctrl.recentre_crosshair(
             evt.GetPosition(), self.GetSize().Get()
         )
