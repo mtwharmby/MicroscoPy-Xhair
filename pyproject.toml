@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "MicrosoPy-Xhair"
+name = "MicroscoPyXhair"
 version = "0.0.2"
 authors = [
     { name="Michael Wharmby", email="mt@wharmby.org.uk" },
@@ -16,9 +16,9 @@ dependencies = [
     "numpy",
     "opencv-python==4.6.0.66",
     "Pillow",
-    "windows-capture-device-list @ https://github.com/mtwharmby/MicroscoPy-Xhair/blob/main/submodules/windows_capture_device_list-1.1.0-cp311-cp311-win_amd64.whl",
+    "windows-capture-device-list @ https://github.com/mtwharmby/MicroscoPy-Xhair/raw/main/submodules/windows_capture_device_list-1.1.0-cp311-cp311-win_amd64.whl",
     "six",
-    "wxPython==4.2.0"
+    "wxPython>=4.2.0"
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
