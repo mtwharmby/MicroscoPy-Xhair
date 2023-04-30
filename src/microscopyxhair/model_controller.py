@@ -66,7 +66,7 @@ class CrosshairController:
         self.grad_line_points = None
         self.grad_dash_line_points = None
 
-    def draw_crosshair(self, frame):
+    def draw_crosshair(self, frame) -> cv2.Mat:
         """
         Draw crosshair on frame
         """

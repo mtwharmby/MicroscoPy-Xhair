@@ -19,7 +19,7 @@ class CameraPanel(wx.Panel):
 
         self.init_ui()
 
-    def init_ui(self):
+    def init_ui(self) -> None:
         # Following line is *crucial* to avoid flickering!
         self.SetBackgroundStyle(wx.BG_STYLE_PAINT)
         frame = self.get_frame()
@@ -34,7 +34,7 @@ class CameraPanel(wx.Panel):
         # For mouse events see: https://docs.wxpython.org/wx.MouseEvent.html
         self.Bind(wx.EVT_RIGHT_DCLICK, self.RecenterByClick)
 
-    def init_size(self, frame):
+    def init_size(self, frame) -> None:
         height, width = frame.shape[:2]
         self.bmp = wx.Bitmap.FromBuffer(width, height, frame)
 
@@ -42,7 +42,7 @@ class CameraPanel(wx.Panel):
         self.SetMinSize((width, height))
         self.logger.debug(f"Camera frame size changed to: {(width, height)}")
 
-    def get_frame(self):
+    def get_frame(self) -> None:
         if not self.model.capture_active:
             raise RuntimeError("Capture not started")
         ret, frame = self.capture_ctrl.capture.read()
@@ -52,7 +52,7 @@ class CameraPanel(wx.Panel):
 
         return self.xhair_ctrl.draw_crosshair(frame)
 
-    def OnPaint(self, evt):
+    def OnPaint(self, evt) -> None:
         dc = wx.BufferedPaintDC(self, self.bmp)
         dc.DrawBitmap(self.bmp, 0, 0)
 
