@@ -102,7 +102,7 @@ class CrosshairConfig(wx.Dialog):
         # Line thickness controls
         thick_label = wx.StaticText(self, label="Thickness:")
         thick_slider = SliderWithValue(self, self.model.xhair_thickness, 1, 5)
-        self.Bind(
+        self.Bind(  # Calling self.bind as event passed around
             wx.EVT_SCROLL, self.UpdateThickness, id=thick_slider.SliderId
         )
 
@@ -116,12 +116,10 @@ class CrosshairConfig(wx.Dialog):
                                    label="Horizontal Gradations:")
         hgrads_sbs = wx.StaticBoxSizer(hgrads_sbox, orient=wx.VERTICAL)
 
-        self.hgrad_cb_id = wx.NewId()
-        hgrad_on_check = wx.CheckBox(
-            hgrads_sbox, id=self.hgrad_cb_id, label="Show"
-        )
+        # - Checkbox to show/hide horiz. grads.
+        hgrad_on_check = wx.CheckBox(hgrads_sbox, label="Show")
         hgrad_on_check.SetValue(self.model.xhair_hgrads)
-        self.Bind(wx.EVT_CHECKBOX, self.UpdateHGrads, id=self.hgrad_cb_id)
+        hgrad_on_check.Bind(wx.EVT_CHECKBOX, self.UpdateHGrads)
 
         n_hgrads_label = wx.StaticText(hgrads_sbox,
                                        label="Number of gradations:")
@@ -131,7 +129,7 @@ class CrosshairConfig(wx.Dialog):
         # Sets initial enable/disable state of the widget
         # (important unless we call the EnableHandler explicitly)
         n_hgrads_slider.Enable(hgrad_on_check.IsChecked())
-        self.Bind(
+        self.Bind(  # Calling self.bind as event passed around
             wx.EVT_SCROLL, self.UpdateNumHGrads, id=n_hgrads_slider.SliderId
         )
 
@@ -218,6 +216,7 @@ class SliderWithValue(wx.Panel):
         )
         self.slider_value = wx.StaticText(self, label=f"{value}")
 
+        # Calling self.bind as event passed around
         self.Bind(wx.EVT_SCROLL, self.OnScroll, id=self.slider_id)
 
         hbox.Add(slider, flag=wx.ALIGN_CENTER_VERTICAL)

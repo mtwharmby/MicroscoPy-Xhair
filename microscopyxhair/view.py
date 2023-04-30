@@ -23,14 +23,16 @@ class MainWindow(wx.Frame):
     def init_ui(self):
         menubar = wx.MenuBar()
         file_menu = wx.Menu()
-        choose_cam = file_menu.Append(
+        choose_cam: wx.MenuItem = file_menu.Append(
             wx.ID_ANY, "Active Camera...", "Select active camere"
         )
-        xhair_config = file_menu.Append(
+        xhair_config: wx.MenuItem = file_menu.Append(
             wx.ID_ANY, "Configure crosshair...",
             "Change how crosshair is drawn"
         )
-        exit_item = file_menu.Append(wx.ID_EXIT, "Quit", "Quit application")
+        exit_item: wx.MenuItem = file_menu.Append(
+            wx.ID_EXIT, "Quit", "Quit application"
+        )
         menubar.Append(file_menu, "&File")
         self.SetMenuBar(menubar)
 
