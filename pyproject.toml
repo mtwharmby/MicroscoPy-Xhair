@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "MicrosoPy-Xhair"
+version = "0.0.2"
+authors = [
+    { name="Michael Wharmby", email="mt@wharmby.org.uk" },
+]
+description = "USB microscope viewer, with customisable crosshair"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+dependencies = [
+    "numpy",
+    "opencv-python==4.6.0.66",
+    "Pillow",
+    "windows-capture-device-list @ https://github.com/mtwharmby/MicroscoPy-Xhair/blob/main/submodules/windows_capture_device_list-1.1.0-cp311-cp311-win_amd64.whl",
+    "six",
+    "wxPython==4.2.0"
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/mtwharmby/MicroscoPy-Xhair"
+"Bug Tracker" = "https://github.com/mtwharmby/MicroscoPy-Xhair/issues"
