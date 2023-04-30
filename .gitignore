@@ -160,4 +160,5 @@ cython_debug/
 #.idea/
 
 # Needed for pyinstaller
-!MicroscoPyXhair.spec
+!MicroscoPyXhair_onedir.spec
+!MicroscoPyXhair_onefile.spec
