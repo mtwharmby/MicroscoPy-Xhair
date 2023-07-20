@@ -45,7 +45,8 @@ def main():
     ]
 
     mpx_dist_path = DIST_PATH / "MicroscoPyXhair"
-    shutil.rmtree(mpx_dist_path)
+    if mpx_dist_path.exists():
+        shutil.rmtree(mpx_dist_path)
 
     for sf in spec_files:
         run_pyi(REPO_ROOT, sf)
