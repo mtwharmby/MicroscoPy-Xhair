@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "microscopy-xhair"
+name = "MicroscoPy-Xhair"
 version = "0.1.1"
 description = "USB microscope viewer, with customisable crosshair"
 authors = ["Michael Wharmby <mt@wharmby.org.uk>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "microscopy_xhair"}]
+packages = [ { include = "src/microscopyxhair/" } ]
 
 [tool.poetry.dependencies]
 python = ">=3.11, <3.13"
