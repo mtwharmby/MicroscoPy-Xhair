@@ -19,13 +19,13 @@ jobs:
               uses: snok/install-poetry@v1
 
             - name: Install dependencies
-              run: poetry install --with dev
+              run: C:\Users\runneradmin\.local\bin\poetry install --with dev
 
             - name: Build package
-              run: poetry build
+              run: C:\Users\runneradmin\.local\bin\poetry build
 
             - name: Build Windows executables
-              run: poetry run python run_pyinstaller.py
+              run: C:\Users\runneradmin\.local\bin\poetry run python run_pyinstaller.py
             
             - name: Save artifacts
               uses: actions/upload-artifact@v3
