@@ -30,9 +30,22 @@ jobs:
               # run: C:\Users\runneradmin\.local\bin\poetry run python run_pyinstaller.py
               run: poetry run python run_pyinstaller.py
             
-            - name: Save artifacts
+            - name: Save python artifacts
               uses: actions/upload-artifact@v3
               with:
-                name: build-artifacts
-                path: dist/
+                name: python-artifacts
+                path: |
+                  dist/microscopy_xhair-0.1.1.tar.gz
+                  dist/microscopy_xhair-0.1.1-py3-none-any.whl
+            - name: Save portable executable
+              uses: actions/upload-artifact@v3
+              with:
+                name: windows-portable-executable
+                path: dist/MicroscoPyXhair.exe
+            - name: Save Windows redistributable
+              uses: actions/upload-artifact@v3
+              with:
+                name: windows-redistributable-archive
+                path: dist/MicroscoPyXhair.zip
+
 
