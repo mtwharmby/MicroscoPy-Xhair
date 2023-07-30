@@ -16,16 +16,19 @@ jobs:
                 python-version: "3.11"
             
             - name: Install Poetry
-              uses: snok/install-poetry@v1
+              uses: abatilo/actions-poetry@v2
 
             - name: Install dependencies
-              run: C:\Users\runneradmin\.local\bin\poetry install --with dev
+              # run: C:\Users\runneradmin\.local\bin\poetry install --with dev
+              run: poetry install --with dev
 
             - name: Build package
-              run: C:\Users\runneradmin\.local\bin\poetry build
+              # run: C:\Users\runneradmin\.local\bin\poetry build
+              run: poetry build
 
             - name: Build Windows executables
-              run: C:\Users\runneradmin\.local\bin\poetry run python run_pyinstaller.py
+              # run: C:\Users\runneradmin\.local\bin\poetry run python run_pyinstaller.py
+              run: poetry run python run_pyinstaller.py
             
             - name: Save artifacts
               uses: actions/upload-artifact@v3
