@@ -2,6 +2,7 @@ name: Build MicroscoPy-Xhair
 
 on: [workflow_dispatch]
 
+# TODO Handle changing version numbers
 jobs:
     build:
         
@@ -12,24 +13,25 @@ jobs:
             - name: Setup Python-3.11
               uses: actions/setup-python@v4
               with:
-                # We want to support 3.11 as this is what we know works!
+                # We want to support 3.11 as we know it works!
                 python-version: "3.11"
             
             - name: Install Poetry
+              # Using a pre-defined action - could alternatively have followed steps here:
+              # https://joaodlf.com/using-poetry-in-github-actions-the-easy-way.html
               uses: abatilo/actions-poetry@v2
 
             - name: Install dependencies
-              # run: C:\Users\runneradmin\.local\bin\poetry install --with dev
+              # Dev install ensure we have pyinstaller available
               run: poetry install --with dev
 
             - name: Build package
-              # run: C:\Users\runneradmin\.local\bin\poetry build
               run: poetry build
 
             - name: Build Windows executables
-              # run: C:\Users\runneradmin\.local\bin\poetry run python run_pyinstaller.py
               run: poetry run python run_pyinstaller.py
             
+            # Next three steps all save the output of the build
             - name: Save python artifacts
               uses: actions/upload-artifact@v3
               with:
