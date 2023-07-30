@@ -8,7 +8,7 @@ readme = "README.md"
 packages = [{include = "microscopy_xhair"}]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.11, <3.13"
 numpy = "^1.25.1"
 opencv-python = "^4.8.0.74"
 wxPython = ">=4.2.0"
@@ -16,6 +16,7 @@ windows-capture-device-list = { url = "https://github.com/mtwharmby/MicroscoPy-X
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^6.1.0"
+pyinstaller = "^5.13.0"
 
 [build-system]
 requires = ["poetry-core"]
