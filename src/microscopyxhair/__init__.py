@@ -15,11 +15,12 @@ def main():
     # Don't understand why, but call to device.getDevices must be
     # before the wx.App() call.
     devs = get_device_names()
+    last_cam = len(devs) - 1
 
     app = wx.App()
     model = DataModel(
         wx.Colour(0, 0, 0), 1, (0.5, 0.5), True, 2, None,
-        0, 15, False, devs,
+        last_cam, 15, False, devs,
         False
     )
     capture_ctrl = CaptureController(model=model)
