@@ -1,5 +1,3 @@
-# MicroscoPy-XHair
-
 MicroscoPy-Xhair is a simple USB microscope viewer, which draws a crosshair onto the image provided from a USB camera; it is compatible with Microsoft Windows. MicroscoPy-XHair has been developed for use with the Bruker-AXS Capillary Alignment Microscope, but it can be used with any USB microscope or indeed any USB camera.
 
 
@@ -34,7 +32,7 @@ The crosshair is also centered in the middle of the camera image - this can also
 ### Configuring the Style of the Crosshair
 The style of the crosshair can be controlled from the *Configure Crosshair* window (*File -> Configure crosshair...*). Changes are immediately applied to the crosshair.
 
-![Configure Crosshair Window](./resources/configure_crosshair_window.png)
+<img src="./resources/configure_crosshair_window.png" alt="Configure Crosshair Window" width="200px"/>
 
 **To change the colour of the crosshair,** click on the *Select* button next to *Colour*. Choose a colour in the colour-picker window which is then shown and click OK.
 
@@ -49,7 +47,3 @@ The style of the crosshair can be controlled from the *Configure Crosshair* wind
 To change the position of the crosshair, double right-click at the desired center position of the crosshair. The crosshair (as well as the horizontal gradations) are immediately recentered on the selected position.
 
 **Note:** After restarting the program, the crosshair will be centered on the middle of the camera image again.
-
-
-
-
