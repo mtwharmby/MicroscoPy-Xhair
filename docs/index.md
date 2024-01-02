@@ -5,6 +5,11 @@ MicroscoPy-Xhair is a simple USB microscope viewer, which draws a crosshair onto
 
 MicroscoPy-XHair is available either as a portable executable or a setup-exe. The setup-exe allows the user to install the program into the Program Files directory which allows it to start faster. The portable executable can be copied onto any computer, but is slower to start.
 
+Click the following links to download:
+
+* [Setup-exe](./resources/MicroscoPyXhair-setup.exe)
+* [Portable Executable](./resources/MicroscoPyXhair.exe)
+
 
 # Using MicroscoPy-XHair
 ## Starting MicroscoPy-XHair
