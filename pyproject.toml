@@ -1,23 +1,39 @@
-[tool.poetry]
-name = "MicroscoPy-Xhair"
-version = "0.1.1"
-description = "USB microscope viewer, with customisable crosshair"
-authors = ["Michael Wharmby <mt@wharmby.org.uk>"]
-license = "MIT"
-readme = "README.md"
-packages = [ { include = "src/microscopyxhair/" } ]
-
-[tool.poetry.dependencies]
-python = ">=3.11, <3.13"
-numpy = "^1.25.1"
-opencv-python = "^4.8.0.74"
-wxPython = ">=4.2.0"
-windows-capture-device-list = { url = "https://github.com/mtwharmby/MicroscoPy-Xhair/raw/main/submodules/windows_capture_device_list-1.1.0-cp311-cp311-win_amd64.whl" }
-
-[tool.poetry.group.dev.dependencies]
-flake8 = "^6.1.0"
-pyinstaller = "^5.13.0"
-
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "microscopyxhair"
+authors = [
+  { name="Michael Wharmby", email="mtwharmby@gmail.com" },
+]
+description = "Simple user interface for getting images from USB microscope with added crosshair."
+readme = "README.md"
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "numpy>=1.23",
+    "opencv-python>=4.6",
+    "wxPython>=4.2",
+    "windows-capture-device-list @ https://github.com/mtwharmby/MicroscoPy-Xhair/raw/main/submodules/windows_capture_device_list-1.1.0-cp311-cp311-win_amd64.whl"
+]
+dynamic = ["version"]
+
+[tool.setuptools.dynamic]
+version = {attr = "src.microscopyxhair.__init__.VERSION"}
+
+[tool.setuptools.packages.find]
+exclude = ["launch.py"]
+
+[project.optional-dependencies]
+dev = [
+    "pyinstaller>=5.13.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/mtwharmby/MicroscoPy-Xhair"
+"Bug Tracker" = "https://github.com/mtwharmby/MicroscoPy-Xhair/issues"

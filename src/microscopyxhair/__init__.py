@@ -8,6 +8,9 @@ from .utils import get_device_names
 from .view import MainWindow
 
 
+VERSION = "0.1.2"
+
+
 def main():
     # Don't understand why, but call to device.getDevices must be
     # before the wx.App() call.
