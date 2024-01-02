@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(
-    ['src\\MicroscoPyXhair.py'],
+    ['src\\launch.py'],
     pathex=[],
     binaries=[],
     datas=[],
